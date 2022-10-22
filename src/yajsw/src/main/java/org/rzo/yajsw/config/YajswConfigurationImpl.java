@@ -45,6 +45,8 @@ import org.rzo.yajsw.util.ConfigurationLoggingAdapter;
 import org.rzo.yajsw.util.Utils;
 import org.rzo.yajsw.util.VFSUtils;
 
+import org.rzo.yajsw.os.OperatingSystem;
+
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.SimpleLogger;
 
@@ -196,7 +198,7 @@ public class YajswConfigurationImpl extends CompositeConfiguration implements
 		}
 		// EnvironmentConfiguration will throw a read-only exception -> use BaseConfiguration
 		 _systemConfiguration.addConfiguration(Utils.toBaseConfiguration(new
-		 EnvironmentConfiguration()));
+		 EnvironmentConfiguration(), !OperatingSystem.instance().isPosix()));
 		/*
 		 * Map osEnv = OperatingSystem.instance().getOSEnv();
 		_systemConfiguration.addConfiguration(new MapConfiguration(

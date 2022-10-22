@@ -1,10 +1,9 @@
-yajsw-stable-13.04
+yajsw-stable-13.05
 
-    * Update: commons configuration -> 2.8.0
-    * Update: netty -> 4.1.79
-    * Change: logging restart/shutdown rules
-    * Bug: posix: use WIFEXITED/WIFSIGNALED
-    * Bug: posix: service does not automatically start on boot
+    * Update: commons text -> 1.10.0 (CVE-2022-42889)
+    * Update: commons logging -> 1.2
+    * Bug: posix: implementation of  WIFEXITED/WIFSIGNALED
+	* Bug: windows: convert env var keys to lower case
 
 Note: support the project by donating:
 

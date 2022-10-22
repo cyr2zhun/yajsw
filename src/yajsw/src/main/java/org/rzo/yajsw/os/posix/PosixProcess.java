@@ -1050,7 +1050,7 @@ public class PosixProcess extends AbstractProcess {
 					int code = status.getValue();
 
 					// Exited Normally
-					if (WIFEXITED(code) != 0)
+					if (WIFEXITED(code))
 						_exitCode = WEXITSTATUS(code);
 					else
 						_exitCode = -1;
@@ -1058,7 +1058,7 @@ public class PosixProcess extends AbstractProcess {
 					//else
 					//	_exitCode = 0;
 					
-					if (WIFSIGNALED(code) != 0)
+					if (WIFSIGNALED(code))
 						_exitSignal = WTERMSIG(code);
 					else
 						_exitSignal = -1;
@@ -1419,12 +1419,12 @@ public class PosixProcess extends AbstractProcess {
 			log(string);
 	}
 
-	public int WIFEXITED(int code) {
-		return (code & 0xFF);
+	public boolean WIFEXITED(int code) {
+		return ((code) & 0x7f) == 0;
 	}
 
-	public int WIFSIGNALED(int code) {
-		return (code & 0xFF);
+	public boolean WIFSIGNALED(int code) {
+		return (((byte) (((code) & 0x7f) + 1) >> 1) > 0);
 	}
 
 	public int WTERMSIG(int code) {
@@ -1432,7 +1432,7 @@ public class PosixProcess extends AbstractProcess {
 	}
 
 	public int WEXITSTATUS(int code) {
-		return ((code >> 8) & 0xFF);
+		return ((code) & 0xff00) >> 8;
 	}
 
 	protected File createRWfile(String path, String fname) throws IOException {

@@ -44,13 +44,15 @@ public class Utils
 		_service = service;
 	}
 	
-	public static Configuration toBaseConfiguration(Configuration conf)
+	public static Configuration toBaseConfiguration(Configuration conf, boolean toLowerCase)
 	{
 		Configuration result = new BaseConfiguration();
 		if (conf != null && conf.size() > 0)
 		for (Iterator<String> it=conf.getKeys(); it.hasNext(); )
 		{
 			String key = it.next();
+			if (toLowerCase)
+				key = key.toLowerCase();
 			result.addProperty(key, conf.getProperty(key));
 		}
 		return result;
