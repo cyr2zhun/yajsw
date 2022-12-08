@@ -1,9 +1,7 @@
-yajsw-stable-13.05
+yajsw-stable-13.06
 
-    * Update: commons text -> 1.10.0 (CVE-2022-42889)
-    * Update: commons logging -> 1.2
-    * Bug: posix: implementation of  WIFEXITED/WIFSIGNALED
-	* Bug: windows: convert env var keys to lower case
+    * Bug: posix: setting process affinity
+    * Bug: bad yajsw version log
 
 Note: support the project by donating:
 

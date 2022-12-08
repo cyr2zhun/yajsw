@@ -58,6 +58,7 @@ import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.LongByReference;
+import com.sun.jna.ptr.PointerByReference;
 
 public class PosixProcess extends AbstractProcess {
 	protected int[] _inPipe = new int[2];
@@ -278,7 +279,7 @@ public class PosixProcess extends AbstractProcess {
 		 * int sched_setaffinity (pid_t pid, size_t cpusetsize, const cpu_set_t
 		 * cpuset)
 		 */
-		int sched_setaffinity(int pid, int cpusetsize, LongByReference cpuset);
+		int sched_setaffinity(int pid, int cpusetsize, Memory cpusetArray);
 
 		/*
 		 * pid_t getpid(void);
@@ -1028,10 +1029,17 @@ public class PosixProcess extends AbstractProcess {
 
 		}
 		if (_cpuAffinity != AFFINITY_UNDEFINED) {
-			LongByReference affinity = new LongByReference();
-			affinity.setValue(_cpuAffinity);
-			if (CLibrary.INSTANCE.sched_setaffinity(_pid, 4, affinity) == -1)
-				log("error setting affinity");
+			 final int procs = Runtime.getRuntime().availableProcessors();
+			 final int cpuSetSizeInLongs = (procs + 63) / 64;
+		     final int cpuSetSizeInBytes = cpuSetSizeInLongs * 8;
+		     final Memory cpusetArray = new Memory(cpuSetSizeInBytes);
+		     cpusetArray.setLong(0, _cpuAffinity);
+			if (CLibrary.INSTANCE.sched_setaffinity(_pid, cpuSetSizeInBytes, cpusetArray) == -1)
+			{
+				int err = Native.getLastError();
+				log("error setting affinity " + err + " "
+						+ CLibrary.INSTANCE.strerror(err));
+			}
 			else if (_debug)
 				log("Affinity set to: "+Long.toBinaryString(_cpuAffinity));
 

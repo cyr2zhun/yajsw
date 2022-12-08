@@ -1,2 +1,3 @@
 // defines a list of subprojects
 include "wrapper", "wrapper-app", "ahessian", "hessian4", "srvmgr", "groovy-patch"
+//include "wrapper", "wrapper-app", "wrapper-app9", "ahessian", "hessian4", "srvmgr", "groovy-patch", "groovy-patch9"
