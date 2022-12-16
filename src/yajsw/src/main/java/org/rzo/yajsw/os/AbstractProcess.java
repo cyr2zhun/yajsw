@@ -43,6 +43,7 @@ public abstract class AbstractProcess implements Process
 
 	/** The _priority. */
 	protected int _priority = PRIORITY_UNDEFINED;
+	protected String _nice = null;
 
 	/** The _visible. */
 	protected boolean _visible = true;
@@ -59,6 +60,9 @@ public abstract class AbstractProcess implements Process
 
 	/** The _cpu affinity. */
 	protected long _cpuAffinity = AFFINITY_UNDEFINED;
+
+	/** The _cpu affinity. */
+	protected String _cpuAffinityBitset = null;
 
 	/** The _pipe streams. */
 	protected boolean _pipeStreams = false;
@@ -237,6 +241,11 @@ public abstract class AbstractProcess implements Process
 		_priority = priority;
 	}
 
+	public void setNice(String value)
+	{
+		_nice = value;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -307,6 +316,11 @@ public abstract class AbstractProcess implements Process
 		return _cpuAffinity;
 	}
 
+	public String getCpuAffinityBitset()
+	{
+		return _cpuAffinityBitset;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -315,6 +329,11 @@ public abstract class AbstractProcess implements Process
 	public void setCpuAffinity(long cpuAffinity)
 	{
 		_cpuAffinity = cpuAffinity;
+	}
+
+	public void setCpuAffinityBitset(String value)
+	{
+		_cpuAffinityBitset = value;
 	}
 
 	/*

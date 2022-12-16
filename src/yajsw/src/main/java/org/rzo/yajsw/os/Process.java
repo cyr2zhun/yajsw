@@ -65,6 +65,7 @@ public interface Process
 	 *            the new cpu affinity
 	 */
 	public void setCpuAffinity(long cpuAffinity);
+	public void setCpuAffinityBitset(String cpuAffinity);
 
 	/**
 	 * Sets the visible.
@@ -319,5 +320,9 @@ public interface Process
 	public void setUseSpawn(boolean useSpawn);
 
 	public void setLinuxUseVfork(boolean linuxUseVfork);
+
+	public void handleAffinity();
+
+	public void setNice(String nice);
 
 }

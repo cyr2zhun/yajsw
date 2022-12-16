@@ -51,9 +51,8 @@ public class Utils
 		for (Iterator<String> it=conf.getKeys(); it.hasNext(); )
 		{
 			String key = it.next();
-			if (toLowerCase)
-				key = key.toLowerCase();
-			result.addProperty(key, conf.getProperty(key));
+			String keyl = toLowerCase ? key.toLowerCase() : key;
+			result.addProperty(keyl, conf.getProperty(key));
 		}
 		return result;
 	}

@@ -1326,6 +1326,18 @@ public abstract class AbstractWrappedProcess implements WrappedProcess,
 				setState(STATE_RUNNING);
 				updateAppLoggerName();
 			}
+			executor.execute(new Runnable() {				
+				@Override
+				public void run() {
+					try {
+						_osProcess.handleAffinity();
+						Thread.sleep(10000);
+						_osProcess.handleAffinity();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			});
 		}
 		else
 		{
@@ -1373,10 +1385,16 @@ public abstract class AbstractWrappedProcess implements WrappedProcess,
 		String priority = _config.getString("wrapper.priority");
 		if (priority != null)
 			_osProcess.setPriority(getPriority(priority));
+		String nice = _config.getString("wrapper.priority.nice");
+		if (nice != null)
+			_osProcess.setNice(nice);
 
 		String affinity = _config.getString("wrapper.affinity");
 		if (affinity != null)
 			_osProcess.setCpuAffinity(getAffinity(affinity));
+		String affinityBitset = _config.getString("wrapper.affinity.bitset");
+		if (affinityBitset != null)
+			_osProcess.setCpuAffinityBitset(affinityBitset);
 
 		String title = _config.getString("wrapper.console.title");
 		if (title != null)
@@ -4004,6 +4022,11 @@ public abstract class AbstractWrappedProcess implements WrappedProcess,
 				"spawing update process for configuration "
 						+ internUpdateConfFile);
 		UpdateAction.run();
+	}
+	
+	public void handleAffinity()
+	{
+		_osProcess.handleAffinity();
 	}
 
 }

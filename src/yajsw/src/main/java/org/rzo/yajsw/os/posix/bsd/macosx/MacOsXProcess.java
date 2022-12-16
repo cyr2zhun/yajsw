@@ -298,23 +298,7 @@ public class MacOsXProcess extends PosixProcess
 
 			}
 
-			if (_cpuAffinity != AFFINITY_UNDEFINED) {
-				 final int procs = Runtime.getRuntime().availableProcessors();
-				 final int cpuSetSizeInLongs = (procs + 63) / 64;
-			     final int cpuSetSizeInBytes = cpuSetSizeInLongs * 8;
-			     final Memory cpusetArray = new Memory(cpuSetSizeInBytes);
-			     cpusetArray.setLong(0, _cpuAffinity);
-				if (CLibrary.INSTANCE.sched_setaffinity(_pid, cpuSetSizeInBytes, cpusetArray) == -1)
-				{
-					int err = Native.getLastError();
-					log("error setting affinity " + err + " "
-							+ CLibrary.INSTANCE.strerror(err));
-				}
-				else if (_debug)
-					log("Affinity set to: "+Long.toBinaryString(_cpuAffinity));
-
-			}
-
+			handleAffinity();
 			executor.execute(new Runnable()
 			{
 

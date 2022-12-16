@@ -235,5 +235,7 @@ public interface WrappedProcess
 	public InternalLogger getInternalWrapperLogger();
 
 	public void update(String conf, boolean autostart);
+	
+	public void handleAffinity();
 
 }

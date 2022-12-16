@@ -4461,6 +4461,12 @@ public class WindowsXPProcess extends AbstractProcess
 		Map<String, String> result = Kernel32Util.getEnvironmentVariables();		
 			return result;
 	}
+
+	@Override
+	public void handleAffinity() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 
