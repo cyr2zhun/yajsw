@@ -62,7 +62,7 @@ public class WrapperExe
 	static List confFileList;
 
 	/** The properties. */
-	static List properties;
+	static List properties = new ArrayList();
 
 	/** The cmds. */
 	static List cmds;
@@ -723,7 +723,13 @@ public class WrapperExe
 			for (Option option : cl.getOptions())
 			{
 				if (option.hasArgName() && option.getArgName().equals("configFile"))
-					confFileList.addAll(Arrays.asList(option.getValues()));
+					for (String val: option.getValues())
+					{
+						if (Pattern.matches("wrapper\\..*=.*", val))
+							properties.add(val);
+						else
+							confFileList.add(val);
+					}
 				else if (option.hasArgName() && option.getArgName().equals("PID"))
 					pid = Integer.parseInt(option.getValue());
 			}

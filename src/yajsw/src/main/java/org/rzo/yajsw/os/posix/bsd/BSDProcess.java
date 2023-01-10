@@ -222,7 +222,7 @@ public class BSDProcess extends PosixProcess
 
 		}
 		handleAffinity();
-		System.out.println("started process " + _pid);
+		//System.out.println("started process " + _pid);
 
 		return true;
 	}

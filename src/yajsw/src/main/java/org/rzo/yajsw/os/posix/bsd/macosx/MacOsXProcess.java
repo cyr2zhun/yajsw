@@ -314,7 +314,7 @@ public class MacOsXProcess extends PosixProcess
 
 			});
 
-			log("started process " + _pid);
+			//log("started process " + _pid);
 			return true;
 		} // parent process
 		else if (pid < 0)
