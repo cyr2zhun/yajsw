@@ -1105,7 +1105,7 @@ public class PosixProcess extends AbstractProcess {
 		Function f = NativeLibrary.getInstance("c").getFunction("sched_getaffinity");
 		return f != null;
 		}
-		catch (Exception ex)
+		catch (Error ex)
 		{
 			System.out.println(ex.getMessage());
 		}
