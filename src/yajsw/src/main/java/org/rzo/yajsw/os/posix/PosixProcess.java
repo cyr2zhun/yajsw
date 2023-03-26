@@ -50,6 +50,7 @@ import org.rzo.yajsw.os.posix.PosixProcess.CLibrary.Sysinfo;
 import org.rzo.yajsw.util.DaemonThreadFactory;
 
 import com.sun.jna.FromNativeConverter;
+import com.sun.jna.Function;
 import com.sun.jna.Memory;
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
@@ -1044,6 +1045,13 @@ public class PosixProcess extends AbstractProcess {
 	}
 
 	public void handleAffinity() {
+		if (_cpuAffinityBitset == null && _cpuAffinity== AFFINITY_UNDEFINED)
+			return;
+		if (!supportsGetAffinity())
+		{
+			System.out.println("Warning: setting affinity not supported on this platform -> Ignore");
+			return;
+		}
 		final int procs = Runtime.getRuntime().availableProcessors();
 		final int cpuSetSizeInLongs = (procs + 63) / 64;
 		int cpuSetSizeInBytes = cpuSetSizeInLongs * 8;
@@ -1089,6 +1097,19 @@ public class PosixProcess extends AbstractProcess {
 		} else if (_debug)
 			log("After Affinity: " + cpusetArray2.getLong(0));
 
+	}
+
+	private boolean supportsGetAffinity() {
+		try
+		{
+		Function f = NativeLibrary.getInstance("c").getFunction("sched_getaffinity");
+		return f != null;
+		}
+		catch (Exception ex)
+		{
+			System.out.println(ex.getMessage());
+		}
+		return false;
 	}
 
 	private byte[] parseBitset(String value) {

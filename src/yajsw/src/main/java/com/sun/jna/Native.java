@@ -1294,7 +1294,7 @@ public final class Native implements Version {
     }
 
     /** Obtain a directory suitable for writing JNA-specific temporary files.
-        Override with <code>jna.tmpdir</code>
+        Override with <code>jna_tmpdir</code>
     */
     static File getTempDir() throws IOException {
         File jnatmp;
