@@ -3739,6 +3739,8 @@ public class WindowsXPProcess extends AbstractProcess
 		if (!isRunning())
 			return -1;
 		PdhCounter c = getPMemCounter();
+		if (c == null)
+			return -1;
 		if (Platform.is64Bit())
 			return c.getLongValue();
 		return c.getIntValue();
@@ -3766,6 +3768,8 @@ public class WindowsXPProcess extends AbstractProcess
 		if (!isRunning() || getVMemCounter() == null)
 			return -1;
 		PdhCounter c = getVMemCounter();
+		if (c == null)
+			return -1;
 		return c.getLongValue();
 	}
 
@@ -4115,6 +4119,8 @@ public class WindowsXPProcess extends AbstractProcess
 		if (!isRunning() || getThreadsCounter() == null)
 			return -1;
 		PdhCounter c = getThreadsCounter();
+		if (c == null)
+			return -1;
 		return c.getIntValue();
 	}
 
