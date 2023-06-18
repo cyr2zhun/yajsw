@@ -1,10 +1,7 @@
-yajsw-stable-13.09
+yajsw-stable-13.10
 
-    * Bug: Error installing daemon on mac:  UnsatisfiedLinkError: Error looking up function 'sched_getaffinity'
-    * Bug: Documentation jna_tmpdir
-    * Bug: Bad yajsw version log
-    * Bug: Windows: NPE getting PDH counters for system tray. TODO resolve PDH counter issues.
-	
+    * New: support jdk 19/20: update to groovy 4.0.12
+    * Bug: Logging not substituting variables	
 	
 Note: support the project by donating:
 

@@ -35,8 +35,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
 
-import org.codehaus.groovy.runtime.m12n.SimpleExtensionModule;
-
 import io.netty.util.internal.logging.InternalLogLevel;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
@@ -166,8 +164,10 @@ public class GroovyRunnerRegistry implements Map<String, GroovyRunner>, Iterable
             loadDefaultRunners();
             loadWithLock(classLoader);
         } catch (SecurityException se) {
-            LOG.log(InternalLogLevel.WARN, "Failed to get the context ClassLoader", se);
+            //LOG.log(Level.WARNING, "Failed to get the context ClassLoader", se);
+        	LOG.log(InternalLogLevel.WARN, "Failed to get the context ClassLoader", se);
         } catch (ServiceConfigurationError sce) {
+            //LOG.log(Level.WARNING, "Failed to load GroovyRunner services from ClassLoader " + classLoader, sce);
             LOG.log(InternalLogLevel.WARN, "Failed to load GroovyRunner services from ClassLoader " + classLoader, sce);
         } finally {
             writeLock.unlock();
@@ -289,7 +289,7 @@ public class GroovyRunnerRegistry implements Map<String, GroovyRunner>, Iterable
     /**
      * Returns the registered runner for the specified key.
      *
-     * @param key used to lookup the runner
+     * @param key used to look up the runner
      * @return the runner registered with the given key
      */
     @Override

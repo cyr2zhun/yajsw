@@ -18,18 +18,18 @@
  */
 package org.codehaus.groovy.vmplugin;
 
-import org.apache.groovy.plugin.GroovyRunnerRegistry;
 import org.apache.groovy.util.Maps;
 import org.codehaus.groovy.runtime.DefaultGroovyMethods;
+import org.codehaus.groovy.runtime.m12n.MetaInfExtensionModule;
+
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.math.BigDecimal;
-import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Map;
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
-import io.netty.util.internal.logging.InternalLogger;
-import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.isAtLeast;
 
@@ -41,6 +41,7 @@ import static org.codehaus.groovy.runtime.DefaultGroovyMethods.isAtLeast;
 public class VMPluginFactory {
 //    private static final Logger LOGGER = Logger.getLogger(VMPluginFactory.class.getName());
     private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(VMPluginFactory.class.getName());
+    
     private static final Map<BigDecimal, String> PLUGIN_MAP = Maps.of(
             // Note: list the vm plugin entries in *descending* order:
             new BigDecimal("16"), "org.codehaus.groovy.vmplugin.v16.Java16",
@@ -59,8 +60,13 @@ public class VMPluginFactory {
         return PLUGIN;
     }
 
+    @SuppressWarnings("removal") // TODO a future Groovy version should perform the operation not as a privileged action
+    private static <T> T doPrivileged(PrivilegedAction<T> action) {
+        return java.security.AccessController.doPrivileged(action);
+    }
+
     private static VMPlugin createPlugin() {
-        return AccessController.doPrivileged((PrivilegedAction<VMPlugin>) () -> {
+        return doPrivileged((PrivilegedAction<VMPlugin>) () -> {
             final BigDecimal specVer = new BigDecimal(VMPlugin.getJavaVersion());
             ClassLoader loader = VMPluginFactory.class.getClassLoader();
             for (Map.Entry<BigDecimal, String> entry : PLUGIN_MAP.entrySet()) {

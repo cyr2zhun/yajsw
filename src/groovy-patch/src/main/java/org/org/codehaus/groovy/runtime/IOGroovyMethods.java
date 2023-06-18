@@ -63,11 +63,11 @@ import static org.codehaus.groovy.ast.tools.ClosureUtils.hasSingleStringArg;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.callClosureForLine;
 
 /**
- * This class defines new groovy methods for Files, URLs, URIs which appear
- * on normal JDK classes inside the Groovy environment.
+ * This class defines new groovy methods for Readers, Writers, InputStreams and
+ * OutputStreams which appear on normal JDK classes inside the Groovy environment.
  * Static methods are used with the first parameter being the destination class,
- * i.e. <code>public static long size(File self)</code>
- * provides a <code>size()</code> method for <code>File</code>.
+ * i.e. <code>public static T eachLine(InputStream self, Closure c)</code>
+ * provides a <code>eachLine(Closure c)</code> method for <code>InputStream</code>.
  * <p>
  * NOTE: While this class contains many 'public' static methods, it is
  * primarily regarded as an internal class (its internal package name
@@ -82,7 +82,6 @@ public class IOGroovyMethods extends DefaultGroovyMethodsSupport {
     //private static final Logger LOG = Logger.getLogger(IOGroovyMethods.class.getName());
     private static final InternalLogger LOG = InternalLoggerFactory.getInstance(IOGroovyMethods.class.getName());
 
-
     /**
      * Overloads the leftShift operator for Writer to allow an object to be written
      * using Groovy's default representation for the object.
@@ -94,7 +93,7 @@ public class IOGroovyMethods extends DefaultGroovyMethodsSupport {
      * @since 1.0
      */
     public static Writer leftShift(Writer self, Object value) throws IOException {
-        InvokerHelper.write(self, value);
+        FormatHelper.write(self, value);
         return self;
     }
 
@@ -109,7 +108,7 @@ public class IOGroovyMethods extends DefaultGroovyMethodsSupport {
      * @since 2.1.0
      */
     public static Appendable leftShift(Appendable self, Object value) throws IOException {
-        InvokerHelper.append(self, value);
+        FormatHelper.append(self, value);
         return self;
     }
 
@@ -321,7 +320,7 @@ public class IOGroovyMethods extends DefaultGroovyMethodsSupport {
     }
 
     /**
-     * Create a new ObjectInputStream for this file and pass it to the closure.
+     * Create a new ObjectInputStream for this input stream and pass it to the closure.
      * This method ensures the stream is closed after the closure returns.
      *
      * @param inputStream an input stream
@@ -336,7 +335,7 @@ public class IOGroovyMethods extends DefaultGroovyMethodsSupport {
     }
 
     /**
-     * Create a new ObjectInputStream for this file and pass it to the closure.
+     * Create a new ObjectInputStream for this input stream and pass it to the closure.
      * This method ensures the stream is closed after the closure returns.
      *
      * @param inputStream an input stream
@@ -675,7 +674,8 @@ public class IOGroovyMethods extends DefaultGroovyMethodsSupport {
             input.mark(charBufferSize);
         } catch (IOException e) {
             // this should never happen
-            LOG.warn("Caught exception setting mark on supporting reader: " + e);
+            //LOG.warning("Caught exception setting mark on supporting reader: " + e);
+        	LOG.warn("Caught exception setting mark on supporting reader: " + e);
             // fallback
             return readLineFromReaderWithoutMark(input);
         }
@@ -859,7 +859,7 @@ public class IOGroovyMethods extends DefaultGroovyMethodsSupport {
      */
     public static String getText(BufferedReader reader) throws IOException {
         StringBuilder answer = new StringBuilder();
-        // reading the content of the file within a char buffer
+        // reading the content of the reader within a char buffer
         // allow to keep the correct line endings
         char[] charBuffer = new char[8192];
         int nbCharRead /* = 0*/;
@@ -888,7 +888,7 @@ public class IOGroovyMethods extends DefaultGroovyMethodsSupport {
      */
     public static byte[] getBytes(InputStream is) throws IOException {
         ByteArrayOutputStream answer = new ByteArrayOutputStream();
-        // reading the content of the file within a byte buffer
+        // reading the content of the stream within a byte buffer
         byte[] byteBuffer = new byte[8192];
         int nbByteRead /* = 0*/;
         try {
@@ -994,7 +994,7 @@ public class IOGroovyMethods extends DefaultGroovyMethodsSupport {
     }
 
     /**
-     * Standard iterator for a input stream which iterates through the stream
+     * Standard iterator for an input stream which iterates through the stream
      * content in a byte-based fashion.
      *
      * @param self an InputStream object
