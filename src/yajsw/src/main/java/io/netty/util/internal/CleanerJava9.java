@@ -70,7 +70,7 @@ final class CleanerJava9 implements Cleaner {
         if (error == null) {
             logger.debug("java.nio.ByteBuffer.cleaner(): available");
         } else {
-            logger.debug("java.nio.ByteBuffer.cleaner(): unavailable", error);
+            logger.debug("java.nio.ByteBuffer.cleaner(): unavailable");
         }
         INVOKE_CLEANER = method;
     }

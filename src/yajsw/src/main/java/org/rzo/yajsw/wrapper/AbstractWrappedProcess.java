@@ -972,6 +972,8 @@ public abstract class AbstractWrappedProcess implements WrappedProcess,
 
 	protected boolean exitSignalRestart()
 	{
+		if (Platform.isWindows())
+			return false;
 		if (_state == STATE_USER_STOP || _state == STATE_SHUTDOWN)
 			return false;
 		if (_startupSignalCodes.contains(_osProcess.getExitSignal()))
