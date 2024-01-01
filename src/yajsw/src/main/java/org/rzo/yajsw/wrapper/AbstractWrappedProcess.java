@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -680,6 +681,10 @@ public abstract class AbstractWrappedProcess implements WrappedProcess,
 								{
 									script.executeWithTimeout();
 								}
+								
+								public String getId() {
+									return key;
+								}
 
 							});
 			}
@@ -740,6 +745,10 @@ public abstract class AbstractWrappedProcess implements WrappedProcess,
 								}
 
 							});
+						}
+						
+						public String getId() {
+							return "999";
 						}
 					});
 
@@ -1071,7 +1080,16 @@ public abstract class AbstractWrappedProcess implements WrappedProcess,
 			if (listeners999 != null)
 				allListeners.addAll(listeners999);
 
-			for (Iterator it = allListeners.iterator(); it.hasNext();)
+			List allListenersList = new ArrayList(allListeners);
+			Comparator alphaNComparator = new AlphaNumericComparator();
+			Collections.sort(allListenersList, new Comparator<StateChangeListener>() {
+
+				@Override
+				public int compare(StateChangeListener o1, StateChangeListener o2) {
+					return alphaNComparator.compare(o1.getId(), o2.getId());
+				}
+			});
+			for (Iterator it = allListenersList.iterator(); it.hasNext();)
 			{
 				StateChangeListener listener = (StateChangeListener) it.next();
 				if (listener != null)
@@ -2760,6 +2778,10 @@ public abstract class AbstractWrappedProcess implements WrappedProcess,
 				lock.lock();
 				isIdle.signal();
 				lock.unlock();
+			}
+			
+			public String getId() {
+				return "999";
 			}
 
 		};

@@ -1,3 +1,7 @@
 // defines a list of subprojects
+
+// build8. comment out for build9
 include "wrapper", "wrapper-app", "ahessian", "hessian4", "srvmgr", "groovy-patch"
+
+// build9. comment out for build8
 //include "wrapper", "wrapper-app", "wrapper-app9", "ahessian", "hessian4", "srvmgr", "groovy-patch", "groovy-patch9"

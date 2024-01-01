@@ -125,6 +125,9 @@ public class RuntimeJavaMain
 							p.shutdown();
 						System.exit(exitCode);
 					}
+					public String getId() {
+						return "999";
+					}
 				});
 
 		p.start();

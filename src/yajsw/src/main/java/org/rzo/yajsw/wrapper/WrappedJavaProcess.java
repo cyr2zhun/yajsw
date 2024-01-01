@@ -156,9 +156,12 @@ public class WrappedJavaProcess extends AbstractWrappedProcess
 
 	protected String getMainClass()
 	{
+		/*
 		String module = _config.getString("wrapper.java.app.module", null);
 		return _config.getString("wrapper.java.mainclass",
 				module == null ? "org.rzo.yajsw.app.WrapperJVMMain" : "org.rzo.yajsw.app.WrapperJVMMain9");
+				*/
+		return "org.rzo.yajsw.app.WrapperJVMMain";
 	}
 
 	/**
@@ -239,13 +242,15 @@ public class WrappedJavaProcess extends AbstractWrappedProcess
 	private List jvmOptions()
 	{
 		ArrayList result = new ArrayList();
+		
+		// classpath
 		result.add("-classpath");
 		StringBuffer sb = new StringBuffer();
 		String module = _config.getString("wrapper.java.app.module", null);
 		if (module != null)
 		{
-			sb.append(WrapperLoader.getWrapperApp9Jar().trim());
-			sb.append(PATHSEP);
+			//sb.append(WrapperLoader.getWrapperApp9Jar().trim());
+			//sb.append(PATHSEP);
 		}
 		sb.append(WrapperLoader.getWrapperAppJar().trim());
 		sb.append(PATHSEP);
@@ -262,9 +267,28 @@ public class WrappedJavaProcess extends AbstractWrappedProcess
 		if (cp.contains(" ") && Platform.isWindows())
 			cp = "\"" + cp + "\"";
 		result.add(checkValue(cp));
+		
+		// modulepath
+		StringBuilder appMp = getAppModulePath(
+				_config.getString("wrapper.working.dir", "."),
+				_config.getKeys("wrapper.java.app.module-path"));
+		if (appMp != null && appMp.length() > 0)
+		{
+			result.add("-p");
+			String mp = appMp.toString();
+			if (mp.contains(" ") && Platform.isWindows())
+				mp = "\"" + mp + "\"";
+			result.add(checkValue(mp));
+		}
+		
 		boolean hasXrs = false;
 		boolean hasXmx = false;
 		boolean hasXms = false;
+		boolean hasAddModule = false;
+		boolean isAddModule = false;
+		String appModule = _config.getString("wrapper.java.app.module");
+		if (appModule != null && appModule.isEmpty())
+			appModule = null;
 		for (Iterator it = _config.getKeys("wrapper.java.additional"); it
 				.hasNext();)
 		{
@@ -272,10 +296,21 @@ public class WrappedJavaProcess extends AbstractWrappedProcess
 			String value = _config.getString(key);
 			if (value == null)
 				continue;
+			// if prev entry was --add-modules and we have an app module, check that it is in the list of modules
+			if (isAddModule)
+				value = doAddModule(value, appModule);
 			result.add(checkQuotes(checkValue(value)));
 			hasXrs |= value.contains("-Xrs");
 			hasXmx |= value.contains("-Xmx");
 			hasXms |= value.contains("-Xms");
+			hasAddModule |= value.contains("--add-modules");
+			isAddModule = value.contains("--add-modules");
+		}
+		// if app module has not yet been added to the module list
+		if (appModule != null && !hasAddModule)
+		{
+			result.add("--add-modules");
+			result.add(checkQuotes(checkValue(appModule)));
 		}
 		sb = new StringBuffer();
 		if (_config.getKeys("wrapper.java.library.path").hasNext())
@@ -411,7 +446,16 @@ public class WrappedJavaProcess extends AbstractWrappedProcess
 		 * (!result.contains("-Dcom.sun.management.jmxremote"))
 		 * result.add("-Dcom.sun.management.jmxremote");
 		 */
+		
 		return result;
+	}
+
+	private String doAddModule(String value, String appModule) {
+		if (appModule == null || value == null)
+			return value;
+		if (value.contains(appModule))
+			return value;
+		return value+","+appModule;
 	}
 
 	// avoid -Dkey="somequotedstring"withnonequoted
@@ -463,6 +507,58 @@ public class WrappedJavaProcess extends AbstractWrappedProcess
 			files.addAll(jars);
 			files.addAll(classpathFromJar(jars, workingDir));
 		}
+		for (Iterator it = configList.listIterator(); it.hasNext();)
+		{
+			String file = _config.getString((String) it.next());
+			file = file.replaceAll("\"", "");
+			if (file == null)
+				continue;
+			files.addAll(FileUtils.getFiles(workingDir, file));
+		}
+		StringBuilder sb = new StringBuilder();
+		for (Iterator it = files.iterator(); it.hasNext();)
+		{
+			try
+			{
+				if (relativizeClasspath)
+					sb.append(relativize(workingDir, (File) it.next()));
+				else
+					sb.append(((File) it.next()).getCanonicalPath());
+
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			if (it.hasNext())
+				sb.append(PATHSEP);
+
+		}
+
+		return sb;
+	}
+
+	/**
+	 * Gets the app module path.
+	 * 
+	 * @param workingDir
+	 *            the working dir
+	 * @param config
+	 *            the config
+	 * 
+	 * @return the app class path
+	 */
+	private StringBuilder getAppModulePath(String workingDir, Iterator keys)
+	{
+		workingDir = workingDir.replaceAll("\"", "");
+		List configList = new ArrayList();
+		for (Iterator it = keys; it.hasNext();)
+		{
+			configList.add(it.next());
+		}
+		Collections.sort(configList, new AlphaNumericComparator());
+		List files = new ArrayList();
+		boolean relativizeClasspath = _config.getBoolean("wrapper.java.app.relativize_classapth", false);
 		for (Iterator it = configList.listIterator(); it.hasNext();)
 		{
 			String file = _config.getString((String) it.next());

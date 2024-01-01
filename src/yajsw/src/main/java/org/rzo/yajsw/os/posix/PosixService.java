@@ -333,7 +333,7 @@ public class PosixService extends AbstractService implements Constants
 		}
 		List configs = _config.getList("wrapperx.config");
 
-		_startCmd = new String[10 + result.size() + configs.size()];
+		_startCmd = new String[10 + result.size() + configs.size() + _cliProperties.size()];
 		_startCmd[0] = java;
 		_startCmd[1] = Utils.getDOption("wrapper.pidfile", _wrapperPidFile);
 		_startCmd[2] = "-Dwrapper.service=true";
@@ -350,6 +350,10 @@ public class PosixService extends AbstractService implements Constants
 		_startCmd[9 + result.size()] = _confFile;
 		for (int i = 1; i < configs.size(); i++)
 			_startCmd[9 + result.size() + i] = configs.get(i).toString();
+
+		System.out.println("_cliProperties.size() "+_cliProperties.size());
+		for (int i = 0; i < _cliProperties.size(); i++)
+			_startCmd[9 + result.size() + configs.size() + i+1] = (String) _cliProperties.get(i);
 
 		_execCmd = _startCmd.clone();
 		// _execCmd[4] = "-Xrs";

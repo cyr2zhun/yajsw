@@ -78,6 +78,8 @@ public class WrappedService
 
 	private List<String> _confFilesList;
 
+	private List _cliProperties;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -121,6 +123,7 @@ public class WrappedService
 				.createService();
 		_osService.setLogger(_log);
 		_osService.setName(_config.getString("wrapper.ntservice.name"));
+		_osService.setCliProperties(getCliProperties());
 
 		String displayName = _config.getString("wrapper.ntservice.displayname");
 		String description = _config.getString("wrapper.ntservice.description");
@@ -710,6 +713,16 @@ public class WrappedService
 		if (_osService != null && _osService instanceof WindowsXPService)
 			return ((WindowsXPService) _osService).requestElevation();
 		return false;
+	}
+
+	public void setCliProperties(List properties) {
+		System.out.println("setCliProperties "+properties);
+		_cliProperties = properties;
+	}
+	
+	public List getCliProperties()
+	{
+		return _cliProperties;
 	}
 
 }

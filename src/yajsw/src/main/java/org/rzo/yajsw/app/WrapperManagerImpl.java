@@ -222,7 +222,19 @@ public class WrapperManagerImpl implements WrapperManager, Constants,
 	BlockingQueue<String> _keystoreResult = new ArrayBlockingQueue(1);
 	
 	private boolean _wrapperPingCheckAck = false;
-
+	
+	Object moduleLayer = null;
+	
+	public void setModuleLayer(Object layer)
+	{
+		this.moduleLayer = layer;
+	}
+	
+	public Object getModuleLayer()
+	{
+		return this.moduleLayer;
+	}
+	
 	private String getSystemProperty(String key)
 	{
 		String result = System.getProperty(key);
@@ -326,14 +338,14 @@ public class WrapperManagerImpl implements WrapperManager, Constants,
 					modulePath.add(mp.getString(it.next()));
 				}
 			}
-			module = config.getString("wrapper.java.app.module", null);
+			//module = config.getString("wrapper.java.app.module", null);
 			String groovyScript = config.getString("wrapper.groovy");
 			if (mainClassName == null && jarName == null
 					&& groovyScript == null && module == null)
 				mainClassName = config.getString("wrapper.app.parameter.1");
 			if (_debug > 1)
-				System.out.println("mainClass/jar/script/module: " + mainClassName
-						+ "/" + jarName + "/" + groovyScript+"/"+module);
+				System.out.println("mainClass/jar/script: " + mainClassName
+						+ "/" + jarName + "/" + groovyScript);
 			if (jarName == null && mainClassName == null
 					&& groovyScript == null && module == null)
 			{
@@ -341,11 +353,11 @@ public class WrapperManagerImpl implements WrapperManager, Constants,
 						.println("missing main class name or jar file or groovy file or module. please check configuration");
 				return;
 			}
-			if (jarName != null && module == null)
+			if (jarName != null)
 			{
 				mainMethod = loadJar(jarName);
 			}
-			else if (mainClassName != null && module == null)
+			else if (mainClassName != null)
 				try
 				{
 					Class cls = ClassLoader.getSystemClassLoader().loadClass(

@@ -96,6 +96,7 @@ public class WrapperExe
 		if (confFileList != null && confFileList.size() > 1)
 			_service.setConfFilesList(confFileList);
 		_service.setLocalConfiguration(new MapConfiguration(_properties));
+		_service.setCliProperties(properties);
 		_service.init();
 		return _service;
 	}
@@ -618,6 +619,8 @@ public class WrapperExe
 		WrappedService w = getService();
 		w.init();
 		int state = w.state();
+		_exitCode = state;
+		_exitOnTerminate = true;
 	}
 
 	private static void doStatePosix()

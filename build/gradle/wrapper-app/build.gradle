@@ -11,32 +11,33 @@ sourceSets.main.java.srcDirs = ["$projectHome/src/app/src/main/java"]
 
 
 dependencies {
-    compile project(':wrapper')
+    implementation project(':wrapper')
 }
 
 dependencies {
-    compile group: 'commons-collections', name: 'commons-collections', 			version: "$commons_collections_version"
-    compile group: 'commons-configuration2', name: 'commons-configuration2', 	version: "$commons_configuration_version"
-    compile group: 'commons-text', name: 'commons-text', 	version: "$commons_text_version"
-    compile group: 'commons-io', 					name: 'commons-io', 							version: "$commons_io_version"
-    compile group: 'commons-lang3', 				name: 'commons-lang3', 						version: "$commons_lang_version"
-    compile group: 'commons-logging', 		name: 'commons-logging', 					version: "$commons_logging_version"
-    compile group: 'netty', 							name: 'netty-codec', 										version: "$netty_version"
-    compile group: 'netty', 							name: 'netty-handler', 										version: "$netty_version"
-    compile group: 'netty', 							name: 'netty-transport', 										version: "$netty_version"
-    compile group: 'netty', 							name: 'netty-buffer', 										version: "$netty_version"
-    compile group: 'netty', 							name: 'netty-common', 										version: "$netty_version"
-    compile group: 'permit-reflect', 				name: 'permit-reflect', 					version: "$permit_version"
+    implementation group: 'commons-collections', name: 'commons-collections', 			version: "$commons_collections_version"
+    implementation group: 'commons-configuration2', name: 'commons-configuration2', 	version: "$commons_configuration_version"
+    implementation group: 'commons-text', name: 'commons-text', 	version: "$commons_text_version"
+    implementation group: 'commons-io', 					name: 'commons-io', 							version: "$commons_io_version"
+    implementation group: 'commons-lang3', 				name: 'commons-lang3', 						version: "$commons_lang_version"
+    implementation group: 'commons-logging', 		name: 'commons-logging', 					version: "$commons_logging_version"
+    implementation group: 'netty', 							name: 'netty-codec', 										version: "$netty_version"
+    implementation group: 'netty', 							name: 'netty-handler', 										version: "$netty_version"
+    implementation group: 'netty', 							name: 'netty-transport', 										version: "$netty_version"
+    implementation group: 'netty', 							name: 'netty-buffer', 										version: "$netty_version"
+    implementation group: 'netty', 							name: 'netty-common', 										version: "$netty_version"
+    implementation group: 'permit-reflect', 				name: 'permit-reflect', 					version: "$permit_version"
+    implementation group: 'groovy-all', 					name: 'groovy', 							version: "$groovy_version"
 }
 
 //println '---------------------------'
 //println 'dependency jars:'
 //println '---------------------------'
-//configurations.compile.each { File file -> println file.absolutePath }
+//configurations.compileClasspath.each { File file -> println file.absolutePath }
 //println '---------------------------'
 
 // name of jar file
-jar.baseName = 'wrapperApp'
+jar.archiveBaseName = 'wrapperApp'
 
 // TODO generate manifest
 jar {

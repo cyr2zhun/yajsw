@@ -5,18 +5,18 @@ ext{
 sourceSets.main.java.srcDirs = ["$projectHome/src/hessian/src/main/java"]
 
 dependencies {
-    compile group: 'netty', 							name: 'netty-codec', 										version: "$netty_version"
-    compile group: 'netty', 							name: 'netty-handler', 										version: "$netty_version"
-    compile group: 'netty', 							name: 'netty-transport', 										version: "$netty_version"
-    compile group: 'netty', 							name: 'netty-buffer', 										version: "$netty_version"
-    compile group: 'netty', 							name: 'netty-common', 										version: "$netty_version"
+    implementation group: 'netty', 							name: 'netty-codec', 										version: "$netty_version"
+    implementation group: 'netty', 							name: 'netty-handler', 										version: "$netty_version"
+    implementation group: 'netty', 							name: 'netty-transport', 										version: "$netty_version"
+    implementation group: 'netty', 							name: 'netty-buffer', 										version: "$netty_version"
+    implementation group: 'netty', 							name: 'netty-common', 										version: "$netty_version"
 }
 
 println '---------------------------'
 println 'dependency jars:'
 println '---------------------------'
-configurations.compile.each { File file -> println file.absolutePath }
+configurations.compileClasspath.each { File file -> println file.absolutePath }
 println '---------------------------'
 
-jar.baseName = 'hessian4'
+jar.archiveBaseName = 'hessian4'
 

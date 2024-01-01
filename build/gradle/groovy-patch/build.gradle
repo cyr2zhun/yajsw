@@ -11,21 +11,22 @@ sourceSets.main.java.srcDirs = ["$projectHome/src/groovy-patch/src/main/java"]
 
 
 dependencies {
-    compile project(':wrapper')
+    implementation project(':wrapper')
 }
 
 dependencies {
-    compile group: 'groovy-all', 					name: 'groovy', 							version: "$groovy_version"
+    implementation group: 'commons-configuration2', name: 'commons-configuration2', 	version: "$commons_configuration_version"
+    implementation group: 'groovy-all', 					name: 'groovy', 							version: "$groovy_version"
 }
 
 //println '---------------------------'
 //println 'dependency jars:'
 //println '---------------------------'
-//configurations.compile.each { File file -> println file.absolutePath }
+//configurations.compileClasspath.each { File file -> println file.absolutePath }
 //println '---------------------------'
 
 // name of jar file
-jar.baseName = 'groovy-patch'
+jar.archiveBaseName = 'groovy-patch'
 
 // TODO generate manifest
 jar {

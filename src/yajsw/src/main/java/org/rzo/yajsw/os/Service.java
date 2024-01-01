@@ -15,6 +15,7 @@
  *******************************************************************************/
 package org.rzo.yajsw.os;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.commons.configuration2.Configuration;
@@ -113,5 +114,7 @@ public interface Service
 	public void setFailureActions(Object failureActions);
 
 	public Object getFailureActions();
+
+	public void setCliProperties(List cliProperties);
 
 }

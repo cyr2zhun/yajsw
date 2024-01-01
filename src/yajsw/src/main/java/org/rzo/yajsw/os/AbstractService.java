@@ -15,6 +15,7 @@
  *******************************************************************************/
 package org.rzo.yajsw.os;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.commons.configuration2.Configuration;;
@@ -34,6 +35,11 @@ abstract public class AbstractService implements Service
 	protected Logger _logger;
 	protected Object _failureActions = null;
 	protected String[] _stopDependencies;
+	protected List _cliProperties;
+	
+	public void setCliProperties(List properties) {
+		_cliProperties = properties;
+	}
 
 	public String getDisplayName()
 	{

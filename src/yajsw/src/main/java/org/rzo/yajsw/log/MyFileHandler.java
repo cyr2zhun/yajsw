@@ -275,7 +275,8 @@ public class MyFileHandler extends StreamHandler
 				 * IOException throws out and exit otherwise it will go into an
 				 * undead cycle
 				 */
-				lock = channel.tryLock();
+				// lock = channel.tryLock();
+				lock = channel.tryLock(0, 0, false);
 				if (lock == null)
 				{
 					closeQuietly(fileStream);
@@ -784,10 +785,11 @@ public class MyFileHandler extends StreamHandler
 	 * @throws NullPointerException
 	 *             if {@code pattern} is {@code null}.
 	 */
-	public MyFileHandler(String pattern, int limit, int count, boolean append, boolean compress)
+	public MyFileHandler(String pattern, int limit, int count, boolean append, boolean compress, int umask)
 			throws IOException
 	{
 		_compress = compress;
+		this.umask = umask;
 		if (pattern.isEmpty())
 		{
 			throw new IllegalArgumentException("Pattern cannot be empty");
@@ -805,10 +807,8 @@ public class MyFileHandler extends StreamHandler
 	public MyFileHandler(String pattern, int limit, int count, boolean append,
 			boolean desc, int umask, boolean compress) throws IOException
 	{
-		this(pattern, limit, count, append, compress);
+		this(pattern, limit, count, append, compress, umask);
 		this.desc = desc;
-		this.umask = umask;
-		_compress =compress;
 		System.out.println("MyFilleHandler2 "+umask);
 	}
 
