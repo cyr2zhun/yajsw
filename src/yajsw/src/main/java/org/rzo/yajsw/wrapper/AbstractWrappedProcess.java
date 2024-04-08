@@ -976,6 +976,9 @@ public abstract class AbstractWrappedProcess implements WrappedProcess,
 			return false;
 		if (_state == STATE_USER_STOP || _state == STATE_SHUTDOWN)
 			return false;
+		// ignore if signal is not set
+		if (_osProcess.getExitSignal() == -1)
+			return false;
 		if (_startupSignalCodes.contains(_osProcess.getExitSignal()))
 		{
 			if (_debug > 0)

@@ -11,7 +11,7 @@ Class-Path-Wrapper-Core:
  ./lib/core/netty/netty-resolver-4.1.104.Final.jar 
  ./lib/core/jna/jna-5.12.1.jar 
  ./lib/core/jna/jna-platform-5.12.1.jar 
- ./lib/core/commons/commons-configuration2-2.8.0.jar 
+ ./lib/core/commons/commons-configuration2-2.10.1.jar 
  ./lib/core/commons/commons-text-1.10.0.jar 
  ./lib/core/commons/commons-vfs2-2.9.0.jar 
  ./lib/core/commons/commons-collections-3.2.2.jar 
@@ -60,7 +60,7 @@ Class-Path-App:
  ./lib/core/netty/netty-common-4.1.104.Final.jar 
  ./lib/core/netty/netty-resolver-4.1.104.Final.jar 
  ./lib/core/commons/commons-text-1.10.0.jar 
- ./lib/core/commons/commons-configuration2-2.8.0.jar  
+ ./lib/core/commons/commons-configuration2-2.10.1.jar  
  ./lib/core/commons/commons-vfs2-2.9.0.jar 
  ./lib/core/commons/commons-collections-3.2.2.jar 
  ./lib/core/commons/commons-io-2.11.0.jar 

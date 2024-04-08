@@ -1,14 +1,10 @@
-yajsw-stable-13.11
+yajsw-stable-13.12
 
-    Update: jackrabbit-webdav -> 2.21.20
-    Update: Netty -> 4.1.104
-    Bug: posix: CLI: wrapper properties not included in daemon install
-    Bug: posix: process restart rules.
-    Update build to gradle 8
-    Bug: Module Service not found: Change handling of modularized applications
+    * Update: commons configuration2 -> 2.10.1
+    * Bug: posix: process restart rules.
+    * Change: show warning if unsupported JSW property is used
 
-Tested with JDK 21.
-Note: Handling of modularized application: Please reinstall the windows service and posix daemon. 
+Tested with JDK 22
 
 Note: support the project by donating:
 
