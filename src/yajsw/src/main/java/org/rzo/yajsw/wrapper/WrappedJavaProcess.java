@@ -76,10 +76,9 @@ public class WrappedJavaProcess extends AbstractWrappedProcess {
 
 	private static final List<Pattern> JSWKeys = Arrays
 			.asList(new Pattern[] { Pattern.compile("wrapper\\.java\\.additional\\.auto_bits.*"),
-					Pattern.compile("wrapper\\.java.additional\\.*\\.java_version\\..*"),
-					Pattern.compile("wrapper\\.java.additional\\.*\\.stripquotes"),
-					Pattern.compile("wrapper\\.java.additional\\.*\\.default_stripquotes"),
-					Pattern.compile("wrapper\\.java.additional_file\\.*") });
+					Pattern.compile("wrapper\\.java.additional\\..*\\.java_version\\..*"),
+					Pattern.compile("wrapper\\.java.additional\\..*\\.stripquotes"),
+					Pattern.compile("wrapper\\.java.additional_file\\..*") });
 
 	public void init() {
 		super.init();
