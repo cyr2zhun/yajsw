@@ -24,7 +24,7 @@ PRGDIR=`dirname "$PRG"`
 EXECUTABLE=wrapper.sh
 
 # set java and conf file
-source "$PRGDIR"/setenv.sh
+source "$PRGDIR/setenv.sh"
 
 # Check that target executable exists
 if [ ! -x "$PRGDIR"/"$EXECUTABLE" ]; then

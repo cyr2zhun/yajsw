@@ -22,7 +22,7 @@ done
 PRGDIR=`dirname "$PRG"`
 
 # set java and conf file
-source "$PRGDIR"/setenv.sh
+source "$PRGDIR/setenv.sh"
 
 "$java_exe" -cp "$wrapper_jar":"$wrapper_app_jar" test.HelloWorld 
 

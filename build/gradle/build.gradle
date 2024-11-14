@@ -14,20 +14,19 @@ ext {
 	commons_collections_version 	= '3.2.2'
 	commons_configuration_version	= '2.10.1'
 	commons_text_version			= '1.10.0'
-	commons_io_version 				= '2.11.0'
+	commons_io_version 				= '2.17.0'
 	commons_lang_version 			= '3.12.0'
 	commons_logging_version 		= '1.2'
 	commons_vfs2_version 			= '2.9.0'
 	groovy_version 					= '4.0.12'
 	jna_version 					= '5.12.1'
 	platform_version 				= '5.12.1'
-	netty_version 					= '4.1.104.Final'
+	netty_version 					= '4.1.114.Final'
 	automaton_version 				= '1.11'
 	formsrt_version 				= ''
 	forms_version 					= '1.2.0'
 	velocity_version 				= 'engine-core-2.3'
 	slf4j_version 					= 'api-1.7.30'
-	glazedlists_version 			= '1.10.0_java16'
 	commons_beanutils_version 		= '1.9.4'
 	yacron4j_version 				= '00.03'
 	joda_time_version 				= '2.7'
@@ -58,7 +57,6 @@ repositories {
     "$extendedLibsDir/commons",
     "$extendedLibsDir/abeille",
     "$extendedLibsDir/jgoodies",
-    "$extendedLibsDir/glazedlists",
     "$extendedLibsDir/slf4j",
     "$extendedLibsDir/velocity"
     

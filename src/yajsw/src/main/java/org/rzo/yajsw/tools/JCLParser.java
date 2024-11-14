@@ -40,6 +40,7 @@ public class JCLParser
 	static final Set<String> CP_KEYS  = new HashSet<String>(Arrays.asList("-cp", "-classpath"));
 	static final Set<String> MP_KEYS  = new HashSet<String>(Arrays.asList("--module-path", "-p"));
 	static final Set<String> M_KEYS  = new HashSet<String>(Arrays.asList("--module", "-m"));
+	static String pathSeparator = File.pathSeparator;
 
 	private JCLParser(String commandLine)
 	{
@@ -328,12 +329,12 @@ public class JCLParser
 		for (int i=1; i<s.size(); i++)
 		{
 			String cp = s.get(i);			
-			if ((posCp == -1 && (CP_KEYS.contains(cp))) || (posCp != -1 && File.pathSeparator.equals(cp)))
+			if ((posCp == -1 && (CP_KEYS.contains(cp))) || (posCp != -1 && pathSeparator.equals(cp)))
 			{
 				i = i+1;
 				cp = s.get(i);
 				posCp = i;
-				String sep = File.pathSeparator;
+				String sep = pathSeparator;
 				String[] cpArr = cp.split(sep);
 				int k = 1;
 
@@ -357,6 +358,7 @@ public class JCLParser
 							_classpath.add(cc);
 						break;
 					}
+					/*
 					if (!singleQuote && !cc.startsWith("\"") && cc.contains(" "))
 					{
 						cc = cc.substring(0, cc.indexOf(" "));
@@ -365,6 +367,7 @@ public class JCLParser
 							_classpath.add(cc);
 						break;
 					}
+					*/
 					int q1 = cc.indexOf("\"");
 					if (!singleQuote && q1 != -1)
 					{
@@ -385,12 +388,12 @@ public class JCLParser
 		for (int i=1; i<s.size(); i++)
 		{
 			String cp = s.get(i);			
-			if ((posMp == -1 && (MP_KEYS.contains(cp))) || (posMp != -1 && File.pathSeparator.equals(cp)))
+			if ((posMp == -1 && (MP_KEYS.contains(cp))) || (posMp != -1 && pathSeparator.equals(cp)))
 			{
 				i = i+1;
 				posMp = i;
 				cp = s.get(i);
-				String sep = File.pathSeparator;
+				String sep = pathSeparator;
 				String[] cpArr = cp.split(sep);
 				int k = 1;
 
@@ -561,6 +564,7 @@ public class JCLParser
 	public static void main(String[] args)
 	{
 		String[] wcmds = new String[] {
+				"\"C:\\Program Files\\Eclipse Adoptium\\jdk-21-hotspot/bin/java.exe\" -classpath \"C:\\Program Files\\someprogram\\lib\\somejar1.jar;C:\\Program Files\\someprogram\\lib\\somejar2.jar\" package.Main",
 				"java  -Xmx512m -jar zap-2.10.0.jar -daemon",
 				"java --module-path out-jar -m com.jenkov.mymodule/com.jenkov.mymodule.Main",
 				"java -jar out-jar/com-jenkov-javafx.jar",
@@ -599,8 +603,39 @@ public class JCLParser
 				"java -jar testJar.jar",
 				"java -jar LogConsolidation-1.0.one-jar.jar",
 				"java -Dlog4j.debug -Dlog4j.configuration=file:../conf/log4j.xml -jar myApp.jar start",
+				
 				"/usr/DAVIDweb/jdk1.6.0_18/bin/java -Dwrapper.teeName=6849389861148562201$1312438311981 -Dwrapper.config=/usr/DAVIDweb/Tomcat557_AAA-DHK_3/AAA-DHK_3/bin/conf/wrapper.conf -Dwrapper.key=6849389861148562201 -Dwrapper.visible=false -Dwrapper.pidfile=/var/run/wrapper.ApacheTomcatAAADHK3.pid -Dwrapper.port=15003 -Dwrapper.key=6849389861148562201 -Dwrapper.teeName=6849389861148562201$1312438311981 -Dwrapper.tmpPath=/tmp -classpath /usr/DAVIDweb/Tomcat557_AAA-DHK_3/AAA-DHK_3/bin/wrapper.jar:/usr/DAVIDweb/Tomcat557_AAA-DHK_3/bin/bootstrap.jar -server -Djava.endorsed.dirs=/DAVIDweb/Tomcat557_AAA-DHK_3/common/endorsed -Dcatalina.home=/DAVIDweb/Tomcat557_AAA-DHK_3 -Dcatalina.base=/DAVIDweb/Tomcat557_AAA-DHK_3/AAA-DHK_3 -Dcatalina.properties=/DAVIDweb/Tomcat557_AAA-DHK_3/AAA-DHK_3/conf/catalina.properties -Djava.io.tmpdir=/DAVIDweb/Tomcat557_AAA-DHK_3/AAA-DHK_3/temp -Dibr.debug=false -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/DAVIDweb/Tomcat557_AAA-DHK_3/AAA-DHK_3/webapps/AAA-DHK_3/logs -XX:+DisableExplicitGC -Xss1024k -Dibr.dhk.geoinfodok=gid600 -Dibr.dhk.lib=/DAVIDweb/Tomcat557_AAA-DHK_3/AAA-DHK_3/webapps/AAA-DHK_3/WEB-INF/lib/gid600 -Xrs -Dwrapper.service=true -Dwrapper.console.visible=false -Xms512m -Xmx512m org.rzo.yajsw.app.WrapperJVMMain" };
 		for (String cmd : wcmds)
+		try
+		{
+			System.out.println("---------------------");
+			System.out.println(cmd);
+			System.out.println("---------------------");
+			//System.out.println(split(cmd));
+			JCLParser p = JCLParser.parse(cmd);
+			System.out.println(" java:");
+			System.out.println(p.getJava());
+			System.out.println(" jar:");
+			System.out.println(p.getJar());
+			System.out.println(" module:");
+			System.out.println(p.getModule());
+			System.out.println(" main class:");
+			System.out.println(p.getMainClass());
+			System.out.println(" args:");
+			System.out.println(p.getArgs());
+			System.out.println(" classpath:");
+			System.out.println(p.getClasspath());
+			System.out.println(" module-path:");
+			System.out.println(p.getModuelPath());
+			System.out.println(" options:");
+			System.out.println(p.getVmOptions());
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		pathSeparator = ":";
+		for (String cmd : cmds)
 		try
 		{
 			System.out.println("---------------------");
