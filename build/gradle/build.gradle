@@ -21,7 +21,7 @@ ext {
 	groovy_version 					= '4.0.12'
 	jna_version 					= '5.12.1'
 	platform_version 				= '5.12.1'
-	netty_version 					= '4.1.114.Final'
+	netty_version 					= '4.1.118.Final'
 	automaton_version 				= '1.11'
 	formsrt_version 				= ''
 	forms_version 					= '1.2.0'

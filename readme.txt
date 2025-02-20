@@ -1,12 +1,5 @@
-yajsw-stable-13.13
-
-    * Update: netty -> 4.1.114.Final
-    * Update: commons-io -> 2.17.0
-    * Update: commons-net -> 3.11.1
-    * Change: removed srvmgr, vfs-dbx, vfs-webdav
-    * Bug: genConfig.bat generates defect config when classpath contains spaces
-    * Bug: Hard coded Java path in setenv.bat in version 13.12
-    * Bug: Quotes in posix batch files
+yajsw-stable-13.14
+    * Update: netty -> 4.1.118.Final
 	
 Note: the next release (14.0) will include the following BREAKING CHANGES:
 
