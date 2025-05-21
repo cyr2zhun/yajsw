@@ -1,7 +1,8 @@
-yajsw-stable-13.14
-    * Update: netty -> 4.1.118.Final
+yajsw-stable-13.15
+    * Update: commons vfs -> 2.10.0
+    * Update: velocity -> 2.4.1
 	
-Note: the next release (14.0) will include the following BREAKING CHANGES:
+Note: the next major release (14.0) will include the following BREAKING CHANGES:
 
     * Support only JDK11+. Reason: Current groovy version does not run on JDK 22+, Groovy 5 requires JDK11+
    
