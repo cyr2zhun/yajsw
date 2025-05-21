@@ -13,7 +13,7 @@ Class-Path-Wrapper-Core:
  ./lib/core/jna/jna-platform-5.12.1.jar 
  ./lib/core/commons/commons-configuration2-2.10.1.jar 
  ./lib/core/commons/commons-text-1.10.0.jar 
- ./lib/core/commons/commons-vfs2-2.9.0.jar 
+ ./lib/core/commons/commons-vfs2-2.10.0.jar 
  ./lib/core/commons/commons-collections-3.2.2.jar 
  ./lib/core/commons/commons-io-2.17.0.jar  
  ./lib/core/commons/commons-lang3-3.12.0.jar 
@@ -35,7 +35,7 @@ Class-Path-Wrapper-Extended:
  ./lib/extended/glazedlists/commons-beanutils-1.9.4.jar 
  ./lib/extended/cron/joda-time-2.7.jar 
  ./lib/extended/cron/yacron4j-00.03.jar 
- ./lib/extended/velocity/velocity-engine-core-2.3.jar 
+ ./lib/extended/velocity/velocity-engine-core-2.4.1.jar 
  ./lib/extended/slf4j/slf4j-api-1.7.30.jar 
  ./lib/extended/slf4j/slf4j-simple-1.7.30.jar 
  ./lib/extended/jgoodies/forms-1.2.0.jar 
@@ -56,7 +56,7 @@ Class-Path-App:
  ./lib/core/netty/netty-resolver-4.1.118.Final.jar 
  ./lib/core/commons/commons-text-1.10.0.jar 
  ./lib/core/commons/commons-configuration2-2.10.1.jar  
- ./lib/core/commons/commons-vfs2-2.9.0.jar 
+ ./lib/core/commons/commons-vfs2-2.10.0.jar 
  ./lib/core/commons/commons-collections-3.2.2.jar 
  ./lib/core/commons/commons-io-2.17.0.jar  
  ./lib/core/commons/commons-lang3-3.12.0.jar 
