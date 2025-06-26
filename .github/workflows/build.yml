@@ -5,6 +5,7 @@ on:
       - master
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
   build:
     name: Build and analyze
@@ -13,25 +14,53 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
       - name: Set up JDK 8
         uses: actions/setup-java@v4
         with:
-          java-version: 8
-          distribution: 'zulu' # Alternative distribution options are available
+          java-version: '8' # Ensure this is a string
+          distribution: 'zulu'
+          # Use a toolchain or explicitly set JAVA_HOME if needed by specific Gradle versions
+          # It's common for gradlew to pick up the correct JDK from PATH/JAVA_HOME set by setup-java
+          # If still seeing JDK 8, it might be a caching issue or an older gradlew config.
+
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache Gradle packages
         uses: actions/cache@v4
         with:
           path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }} # Added '*' for settings.gradle.kts etc.
           restore-keys: ${{ runner.os }}-gradle
+
+      # --- START DEBUGGING AND FIX FOR 'gradlew: No such file or directory' ---
+      - name: Debug: Show current directory and list files
+        run: |
+          echo "Current working directory:"
+          pwd
+          echo "Files in current directory:"
+          ls -la
+          echo "Checking gradlew permissions:"
+          ls -l gradlew || echo "gradlew not found or error checking permissions"
+      
+      - name: Grant execute permission for gradlew
+        # This is the most common fix for "No such file or directory" on Linux runners
+        run: chmod +x gradlew
+        # Use || true to prevent the workflow from failing if gradlew isn't found at all here,
+        # allowing the subsequent debug step to run.
+        # However, it's better if gradlew is always expected to be there.
+        # If gradlew is definitively missing, the 'run' step will fail immediately anyway.
+
+      - name: Debug: Verify gradlew permissions after chmod
+        run: ls -l gradlew || echo "gradlew not found after chmod attempt"
+      # --- END DEBUGGING AND FIX ---
+
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew build sonar --info
-
