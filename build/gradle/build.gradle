@@ -71,6 +71,18 @@ targetCompatibility = 1.8
 //options.bootClasspath = "${System.getProperty('java6.home')}/jre/lib/rt.jar"
 version = ''
 
+plugins {
+  id "org.sonarqube" version "6.2.0.5505"
+}
+
+sonar {
+  properties {
+    property "sonar.projectKey", "cyr2zhun_yajsw"
+    property "sonar.organization", "cyr2zhun"
+    property "sonar.host.url", "https://sonarcloud.io"
+  }
+}	
+
 }
 
 
