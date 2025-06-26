@@ -12,4 +12,4 @@ commons-vfs-2.0-SNAPSHOT.jar						784083
 commons-cli-2-SNAPSHOT.jar							647073
 commons-configuration-1.7-SNAPSHOT.jar	784085
 
-NOTE: the above projects have not had new releases for years, but have been commiting new features which are used here.
+NOTE: the above projects have not had new releases for years, but have been commiting new features which are used here. 
