@@ -56,7 +56,7 @@ jobs:
         # However, it's better if gradlew is always expected to be there.
         # If gradlew is definitively missing, the 'run' step will fail immediately anyway.
 
-      - name: Debug: Verify gradlew permissions after chmod
+      - name: Verify gradlew permissions after chmod
         run: ls -l gradlew || echo "gradlew not found after chmod attempt"
       # --- END DEBUGGING AND FIX ---
 
