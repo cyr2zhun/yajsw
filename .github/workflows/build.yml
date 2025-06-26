@@ -39,7 +39,7 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
 
       # --- START DEBUGGING AND FIX FOR 'gradlew: No such file or directory' ---
-      - name: Debug: Show current directory and list files
+      - name: Show current directory and list files
         run: |
           echo "Current working directory:"
           pwd
